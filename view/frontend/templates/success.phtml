@@ -10,6 +10,11 @@
 <?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
 <script type="text/javascript">
     console.log('success');
+    <?php if(!is_null($this->getPaymentLink())): ?>
+        window.onload = function () {
+            window.open('<?= $this->getPaymentLink() ?>', '_blank');
+        };
+    <?php endif; ?>
 </script>
 <div class="checkout-success">
     <?php if ($block->getOrderId()):?>

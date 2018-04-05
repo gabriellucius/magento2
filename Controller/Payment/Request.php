@@ -235,7 +235,12 @@ class Request extends \Magento\Framework\App\Action\Action
         }
 
         try {
-            return $this->_redirect($this->_payment->createPaymentRequest());
+            $this->session()->setData([
+                'pagseguro_payment' => ['payment_link' => $this->_payment->createPaymentRequest(),
+                ]
+            ]);
+
+            return $this->_redirect(sprintf('%s%s', $this->baseUrl(), 'pagseguro/payment/success'));
         } catch (\Exception $exception) {
             /** @var \Magento\Sales\Model\Order $order */
             $order = $this->_objectManager->create('\Magento\Sales\Model\Order')->load(

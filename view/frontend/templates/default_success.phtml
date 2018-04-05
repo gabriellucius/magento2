@@ -1,0 +1,38 @@
+<?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
+
+<h2>Finalizando sua compra com PagSeguro</h2>
+
+<script type="text/javascript">
+    console.log('success');
+    <?php if(!is_null($this->getPaymentLink())): ?>
+        window.onload = function () {
+            window.open('<?= $this->getPaymentLink() ?>', '_blank');
+        };
+    <?php endif; ?>
+</script>
+
+<div class="checkout-success">
+    <?php echo $block->getAdditionalInfoHtml() ?>
+    <?php if(!is_null($this->getPaymentLink())): ?>
+        <table style="width:100%;">
+            <tr>
+                <td style="width:100%">
+                    Sua compra está em processo de finalização.<br>
+                    Se a página de pagamento não abrir automaticamente 
+                    <a href="<?=  $this->getPaymentLink() ?>" target="_blank">clique aqui</a>.
+                </td>
+            </tr>
+        </table>
+    <?php endif; ?>
+</div>
+
+    

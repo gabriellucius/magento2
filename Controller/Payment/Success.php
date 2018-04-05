@@ -21,7 +21,7 @@
  *  @license   http://www.apache.org/licenses/LICENSE-2.0
  */
 
-namespace UOL\PagSeguro\Controller\Direct;
+namespace UOL\PagSeguro\Controller\Payment;
 
 /**
  * Class Checkout
@@ -56,11 +56,7 @@ class Success extends \Magento\Framework\App\Action\Action
     {
         /** @var \Magento\Framework\View\Result\PageFactory $resultPage */
         $resultPage = $this->_resultPageFactory->create();
-        if($this->link())
-            $resultPage->getLayout()->getBlock('pagseguro.payment.success')->setPaymentLink($this->link());
-        $resultPage->getLayout()->getBlock('pagseguro.payment.success')->setPaymentType($this->type());
-        $resultPage->getLayout()->getBlock('pagseguro.payment.success')->setOrderId($this->order());
-        $resultPage->getLayout()->getBlock('pagseguro.payment.success')->setCanViewOrder(true);
+        $resultPage->getLayout()->getBlock('pagseguro.payment.default_success')->setPaymentLink($this->link());
         $this->clearSession();
         return $resultPage;
     }
@@ -68,20 +64,6 @@ class Success extends \Magento\Framework\App\Action\Action
     private function clearSession()
     {
         $this->_objectManager->create('Magento\Framework\Session\SessionManager')->clearStorage();
-    }
-
-    /**
-     * Get order
-     *
-     * @return \Magento\Sales\Model\Order
-     */
-    private function order()
-    {
-        if (isset($this->session()->order_id)) {
-            $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($this->session()->order_id);
-            return $order->getIncrementId();
-        }
-        return false;
     }
 
     /**
@@ -103,9 +85,7 @@ class Success extends \Magento\Framework\App\Action\Action
      */
     private function type()
     {
-        if (isset($this->session()->payment_type))
-            return $this->session()->payment_type;
-        return false;
+        return $this->session()->payment_type;
     }
 
     /**
